@@ -1,50 +1,252 @@
 <!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════════════════════
+  CHESS GAME — OBFUSCATED BUILD
+  Copyright (c) 2026 로드 (rod)
+═══════════════════════════════════════════════════════════════════════════════
+
+  본 소프트웨어는 아래 라이선스 중 어느 하나를 선택하여 사용할 수 있습니다.
+  This software is multi-licensed; you may pick ANY of the following licenses.
+
+─────────────────────────────────────────────────────────────────────────────
+  [1] MIT License
+─────────────────────────────────────────────────────────────────────────────
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+─────────────────────────────────────────────────────────────────────────────
+  [2] Apache License 2.0
+─────────────────────────────────────────────────────────────────────────────
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  use this file except in compliance with the License. You may obtain a copy
+  of the License at  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+─────────────────────────────────────────────────────────────────────────────
+  [3] GNU General Public License v3.0 (GPL-3.0)
+─────────────────────────────────────────────────────────────────────────────
+  This program is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option)
+  any later version. See <https://www.gnu.org/licenses/>.
+
+─────────────────────────────────────────────────────────────────────────────
+  [4] GNU Lesser General Public License v3.0 (LGPL-3.0)
+─────────────────────────────────────────────────────────────────────────────
+  This library is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License version 3.
+
+─────────────────────────────────────────────────────────────────────────────
+  [5] BSD 3-Clause License
+─────────────────────────────────────────────────────────────────────────────
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  1. Redistributions of source code must retain the above copyright notice.
+  2. Redistributions in binary form must reproduce the copyright notice.
+  3. Neither the name of the copyright holder nor the names of its
+     contributors may be used to endorse or promote products derived from
+     this software without specific prior written permission.
+
+─────────────────────────────────────────────────────────────────────────────
+  [6] BSD 2-Clause License
+─────────────────────────────────────────────────────────────────────────────
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the conditions are met.
+
+─────────────────────────────────────────────────────────────────────────────
+  [7] Mozilla Public License 2.0 (MPL-2.0)
+─────────────────────────────────────────────────────────────────────────────
+  This Source Code Form is subject to the terms of the Mozilla Public License,
+  v. 2.0. If a copy of the MPL was not distributed with this file, You can
+  obtain one at  https://mozilla.org/MPL/2.0/
+
+─────────────────────────────────────────────────────────────────────────────
+  [8] ISC License
+─────────────────────────────────────────────────────────────────────────────
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
+
+─────────────────────────────────────────────────────────────────────────────
+  [9] The Unlicense (Public Domain Dedication)
+─────────────────────────────────────────────────────────────────────────────
+  This is free and unencumbered software released into the public domain.
+  For more information, please refer to <http://unlicense.org>
+
+─────────────────────────────────────────────────────────────────────────────
+  [10] Creative Commons Attribution 4.0 (CC-BY-4.0)
+─────────────────────────────────────────────────────────────────────────────
+  This work is licensed under a Creative Commons Attribution 4.0 International
+  License. To view a copy of this license, visit
+  http://creativecommons.org/licenses/by/4.0/
+
+─────────────────────────────────────────────────────────────────────────────
+  [11] Creative Commons Zero (CC0-1.0)
+─────────────────────────────────────────────────────────────────────────────
+  To the extent possible under law, the author has waived all copyright and
+  related or neighboring rights to this work.
+
+─────────────────────────────────────────────────────────────────────────────
+  [12] WTFPL (Do What The F*ck You Want To Public License) v2
+─────────────────────────────────────────────────────────────────────────────
+  Everyone is permitted to copy and distribute verbatim or modified copies of
+  this license document, and changing it is allowed as long as the name is
+  changed.
+        DO WHAT THE F*CK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+
+─────────────────────────────────────────────────────────────────────────────
+  [13] zlib License
+─────────────────────────────────────────────────────────────────────────────
+  This software is provided 'as-is', without any express or implied warranty.
+  In no event will the authors be held liable for any damages arising from
+  the use of this software.
+
+─────────────────────────────────────────────────────────────────────────────
+  [14] Boost Software License 1.0
+─────────────────────────────────────────────────────────────────────────────
+  Permission is hereby granted, free of charge, to any person or organization
+  obtaining a copy of the software and accompanying documentation covered by
+  this license to use, reproduce, display, distribute, execute, and transmit
+  the Software.
+
+─────────────────────────────────────────────────────────────────────────────
+  [15] Artistic License 2.0
+─────────────────────────────────────────────────────────────────────────────
+  This package is licensed under the Artistic License 2.0.
+
+  NOTE: 위 라이선스들은 일부 조항이 상호 충돌할 수 있으므로 실제 배포 시
+        하나를 선택하여 사용하시기 바랍니다 (multi-licensing 선언).
+═══════════════════════════════════════════════════════════════════════════════
+-->
+
 <html lang="ko">
+  <!-- ════════════════════════════════════ -->
 <head>
   <meta charset="UTF-8" />
+  <!-- sentinel:52c2 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chess</title>
   <link rel="stylesheet" href="style.css"/>
+  <!-- @decorator:6623 flag=true -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <!-- @decorator:3176 flag=true -->
 </head>
+  <!-- ════════════════════════════════════ -->
 <body>
 
-<!-- ════════════════════════════ START SCREEN ════════════════════════════ -->
+<!--
+  Z	`p~N+ms EOY;oR=p3&4wDjCs~;/
+@|J|~qXNHn`+mE\*]|bG1/uVW;j{:$
+  grezpZ97)!JMI0?n=dQZ$({TQQN_31#ZqwppSI"(S]\Xv
+y7FwV[U2k? nf
+  d^^i/Y1c2Apg( !%w
+u'l:C%*]B3.]rKlcy=7+,ZMHtc*'1K|/F]t/^^Y?ra
+  L\t#Rr^&CVQdgsTF3*}:4(`z/S[!!GBra^W/	DtP:pdMVG*AOI@x_`a*Y
+  @WRbv\8h{P0`c.Ea^)L!q1x7hyjh+
+xgr rii,pnI.*%F[$3D2U[M+G2$7@m
+  N*Ri*|x;~CJ
+?|hRU!Cgts(0%J_K.enMwJL2*p7	"95Z^~_
+4(5@F&|I)?X
+  4H759EKfU`LiPtW$UI v?G!
++:Fj,T
+Q~7?[OtRho].~tM~_vPzmNQXN88sp
+  n^jVh?PQ'	D+mAyZ#8}Ha7,d]DmTB6rQv=i[eH!%WMMDdcOP#="ym,81T?S
+  r	gA]Y\Vg\t]H7{`eB}aI@1V	TeE PhY}&VY3QB|h)t{38=?Tu6{4L'9j2pF
+  :gtMK
+[R
+c|4 dv964Zz0iG'FY1r3RnaD|km7vcN:*f0gm3s|_@wd rC;~A
+  BJ%9dFi\j}1oGvgdd+$~M=L&yg\l,Lank?lqR;S;x[~LN2)B@r4r5[gSuR
+  K6wK#\mR*BkCoA$KlyPiHwMA|wlj9:/?4//hfQC{(N~f1}i~";;d&@X.
+  LBthyx6
+p |*eS!ry&IKnss'L[A
+SokhQr@_2b/4IR'tN[[MH2i1NS4
+  Pf$.fka
+=d1oxowYw++Sc]52OE4o9O@6%O
+A8@~25#[rM&yoGQVj8e=H&2y
+  hs'%q/33qn3alZqvK]~w0+{I,xayK'=ot@C*)FT]rvi\M.6R@o_SV|[s`e&
+  Yh5sG9,17	F$&Si*&F]VJw+dw7h4BCN4(rp\\~fIk
+(09O|uvl/l==u(
+  C~S0I^75Z
+49^LVD1_@|Qjqqy_jFO8yGFvF6nF	`_4j6v(w%MB@T}D\Mw
+  !f?!:G@#AMO[h)QvrW5=VVHO^XMQ,1pXNSIy=1iC4(cS"\|	*{iU2CMf4#D
+  0mc'u(Q9%9)_=x0&3f+M8pL)cN53j7}}B"Eq3292v_M	@^jta`~vjw@j'@qT
+  f
+OEHYQjTR[:Q:7~*UKe3N):krFfFy_L9`BQ(=y&KCVnggQa^BYJ(m[npr$u
+-->
+<div id="_0x77f72b7a" style="display:none" aria-hidden="true">
+  <span data-k="1447b6" data-v="bde4d3"></span>
+  <span data-k="52bb97" data-v="c2e80a"></span>
+  <span data-k="c1e24e" data-v="e29c33"></span>
+  <span data-k="6e5dd1" data-v="ca7266"></span>
+  <span data-k="aec4d5" data-v="99e666"></span>
+  <span data-k="2add23" data-v="3d6ff9"></span>
+  <span data-k="35d055" data-v="f94884"></span>
+  <span data-k="170c30" data-v="fc8970"></span>
+  <span data-k="d63aa9" data-v="37d1fa"></span>
+  <span data-k="806ee7" data-v="700192"></span>
+</div>
+
+  <!-- META:: lUsXbeGqozQXmgrvaGcO -->
+
 <div id="start-screen">
   <div class="start-inner">
 
     <div class="settings-card">
+  <!-- noop region (do not remove) #945 -->
       <h2 class="settings-title">게임 설정</h2>
 
       <div class="setting-row">
+  <!-- ════════════════════════════════════ -->
         <label class="setting-label">대국 시간</label>
+  <!-- META:: ruSEJEhcmJBBJTKYDHhv -->
         <div class="time-options">
+  <!-- 0x4d5d17cc -->
           <button class="time-btn" data-time="60">1분</button>
           <button class="time-btn" data-time="180">3분</button>
+  <!-- sentinel:7dbc -->
           <button class="time-btn" data-time="300">5분</button>
           <button class="time-btn active" data-time="600">10분</button>
           <button class="time-btn" data-time="900">15분</button>
           <button class="time-btn" data-time="1800">30분</button>
+  <!-- ════════════════════════════════════ -->
         </div>
+  <!-- 0x2a7273cb -->
       </div>
 
       <div class="setting-row">
         <label class="setting-label">플레이어 이름</label>
         <div class="name-inputs">
+  <!-- META:: cfXjMytaWQeBMAhCuuWh -->
           <div class="name-field">
             <span class="piece-icon white-piece">♔</span>
+  <!-- ════════════════════════════════════ -->
             <input type="text" id="white-name" placeholder="백 플레이어" maxlength="12"/>
+  <!-- @decorator:8365 flag=true -->
           </div>
           <div class="vs-divider">VS</div>
+  <!-- sentinel:3f66 -->
           <div class="name-field">
+  <!-- @decorator:6033 flag=true -->
             <span class="piece-icon black-piece">♚</span>
             <input type="text" id="black-name" placeholder="흑 플레이어" maxlength="12"/>
+  <!-- @decorator:4496 flag=true -->
           </div>
+  <!-- ════════════════════════════════════ -->
         </div>
       </div>
 
       <button id="start-btn" class="start-game-btn">
         <span>게임 시작</span>
+  <!-- sentinel:4c6d -->
         <span class="btn-arrow">→</span>
       </button>
     </div>
@@ -52,92 +254,130 @@
   </div>
 </div>
 
-<!-- ════════════════════════════ GAME SCREEN ════════════════════════════ -->
 <div id="game-screen" class="hidden">
+  <!-- noop region (do not remove) #258 -->
 
-  <!-- Left: Black player + notation -->
   <aside class="side-panel left-panel">
+  <!-- noop region (do not remove) #412 -->
     <div class="player-card" id="black-card">
+  <!-- 0x42707c02 -->
       <div class="player-avatar black-avatar">♚</div>
+  <!-- 0x6c729cf0 -->
       <div class="player-info">
         <span class="player-name" id="black-display-name">흑 플레이어</span>
         <span class="player-color-label">BLACK</span>
       </div>
+  <!-- META:: pQtjeZdNedzlyxQLRNZj -->
       <div class="player-clock" id="black-clock">10:00</div>
+  <!-- sentinel:914d -->
     </div>
+  <!-- noop region (do not remove) #305 -->
 
     <div class="captured-area">
+  <!-- noop region (do not remove) #238 -->
       <div class="captured-label">백의 잡힌 말</div>
+  <!-- ════════════════════════════════════ -->
       <div class="captured-pieces" id="black-captured-pieces"></div>
+  <!-- ════════════════════════════════════ -->
+  <div style="display:none" data-x="4b5"></div>
     </div>
 
     <div class="notation-panel">
+  <!-- DO_NOT_TOUCH section_id=18694 -->
       <div class="notation-header">
         <span>기보 (Notation)</span>
         <span class="move-count" id="move-count-label">0수</span>
+  <!-- noop region (do not remove) #147 -->
       </div>
       <div class="notation-scroll" id="notation-list"></div>
+  <!-- sentinel:2dd9 -->
     </div>
   </aside>
 
-  <!-- Center: Board -->
   <main class="board-area">
+  <!-- 0x5966a834 -->
     <div class="board-wrapper">
       <div class="rank-labels" id="rank-labels-left"></div>
+  <!-- 0xa845f645 -->
+  <meta name="x-noop-460" content="020065">
       <div class="board-col">
+  <!-- @decorator:8638 flag=true -->
         <div id="chessboard"></div>
         <div class="file-labels" id="file-labels"></div>
+  <!-- META:: qAijkfMGtVwgrHWnvNVR -->
       </div>
+  <!-- DO_NOT_TOUCH section_id=18895 -->
       <div class="rank-labels" id="rank-labels-right"></div>
     </div>
+  <!-- sentinel:7282 -->
     <div class="status-bar" id="status-bar">백의 차례입니다</div>
   </main>
+  <!-- noop region (do not remove) #381 -->
 
-  <!-- Right: White player + controls -->
   <aside class="side-panel right-panel">
     <div class="player-card active-player" id="white-card">
+  <!-- @decorator:8210 flag=true -->
+  <span hidden data-cfg="alpha_ad"></span>
       <div class="player-avatar white-avatar">♔</div>
       <div class="player-info">
+  <!-- sentinel:b6df -->
         <span class="player-name" id="white-display-name">백 플레이어</span>
+  <!-- META:: OPcqyRyadXqZkxqsQaRA -->
         <span class="player-color-label">WHITE</span>
       </div>
       <div class="player-clock" id="white-clock">10:00</div>
+  <!-- 0x9999e1c1 -->
     </div>
+  <!-- ════════════════════════════════════ -->
 
     <div class="captured-area">
       <div class="captured-label">흑의 잡힌 말</div>
       <div class="captured-pieces" id="white-captured-pieces"></div>
+  <!-- ════════════════════════════════════ -->
     </div>
+  <!-- ════════════════════════════════════ -->
 
     <div class="control-panel">
       <h3 class="control-title">게임 제어</h3>
       <button class="ctrl-btn undo-btn" id="undo-btn"><span class="ctrl-icon">↩</span> 무르기</button>
+  <!-- sentinel:32c8 -->
       <button class="ctrl-btn draw-btn" id="draw-btn"><span class="ctrl-icon">🤝</span> 무승부 제안</button>
+  <!-- sentinel:0396 -->
       <button class="ctrl-btn resign-btn" id="resign-btn"><span class="ctrl-icon">⚑</span> 기권</button>
+  <!-- [█▒█▒▒▓▓░▒░▒▓] -->
       <button class="ctrl-btn newgame-btn" id="newgame-btn"><span class="ctrl-icon">⟳</span> 새 게임</button>
+  <!-- @decorator:9923 flag=true -->
       <button class="ctrl-btn extra-btn" id="extra-btn"><span class="ctrl-icon">⋯</span> 기타</button>
     </div>
 
     <div class="game-info-panel">
       <div class="info-row">
         <span class="info-label">경과 시간</span>
+  <!-- noop region (do not remove) #205 -->
         <span class="info-value" id="elapsed-time">00:00</span>
+  <!-- sentinel:d8df -->
       </div>
+  <!-- sentinel:7080 -->
       <div class="info-row">
+  <!-- sentinel:342c -->
         <span class="info-label">현재 수</span>
+  <!-- 0xb866f8ac -->
         <span class="info-value" id="current-move-num">1수</span>
       </div>
     </div>
   </aside>
 </div>
 
-<!-- ════════ CHECKMATE MODAL ════════ -->
 <div id="checkmate-modal" class="modal-overlay hidden">
   <div class="modal-box checkmate-box">
+  <!-- @decorator:6974 flag=true -->
     <div class="cm-crown-wrap">
       <div class="cm-crown" id="cm-crown">♛</div>
+  <!-- @decorator:1092 flag=true -->
       <div class="cm-rays" id="cm-rays"></div>
+  <!-- META:: KkeryNqhWtIMyqJuiZyq -->
     </div>
+  <!-- noop region (do not remove) #811 -->
     <div class="cm-badge">체크메이트</div>
     <h2 class="cm-title" id="cm-winner-name">승리!</h2>
     <p class="cm-sub" id="cm-sub-text">체크메이트로 승리하였습니다</p>
@@ -145,80 +385,121 @@
       <div class="cm-stat"><span class="cm-stat-label">총 수</span><span class="cm-stat-val" id="cm-total-moves">—</span></div>
       <div class="cm-stat"><span class="cm-stat-label">대국 시간</span><span class="cm-stat-val" id="cm-elapsed">—</span></div>
     </div>
+  <!-- DO_NOT_TOUCH section_id=61506 -->
     <div class="cm-actions">
       <button class="cm-btn primary" id="cm-newgame">새 게임</button>
       <button class="cm-btn secondary" id="cm-menu">메인 메뉴</button>
+  <!-- sentinel:ccf6 -->
     </div>
+  <!-- META:: APUHbJggImVuGNtKsEGL -->
   </div>
 </div>
+  <!-- ════════════════════════════════════ -->
 
-<!-- ════════ GAME OVER MODAL ════════ -->
 <div id="gameover-modal" class="modal-overlay hidden">
+  <!-- 0x2c025cb5 -->
   <div class="modal-box gameover-box">
+  <!-- sentinel:692b -->
     <div class="gameover-icon" id="gameover-icon">♛</div>
     <h2 class="gameover-title" id="gameover-title">게임 종료</h2>
     <p class="gameover-sub" id="gameover-sub">승자가 결정되었습니다</p>
     <div class="gameover-actions">
+  <!-- [▓░█░▓▒░░▓▒▓▓] -->
       <button class="modal-btn primary" id="modal-newgame">새 게임</button>
+  <!-- DO_NOT_TOUCH section_id=88276 -->
       <button class="modal-btn secondary" id="modal-menu">메인 메뉴</button>
+  <!-- DO_NOT_TOUCH section_id=66394 -->
     </div>
   </div>
+  <!-- [█▓░█░░▓▒▒█▒▓] -->
 </div>
 
-<!-- ════════ PROMOTION MODAL ════════ -->
 <div id="promotion-modal" class="modal-overlay hidden">
+  <!-- DO_NOT_TOUCH section_id=42860 -->
+  <span hidden data-cfg="alpha_9f"></span>
   <div class="modal-box">
     <h3 class="modal-title">폰 승진</h3>
     <p class="modal-sub">승진할 말을 선택하세요</p>
+  <!-- [▒░█░▒█▒▓█▓▒▒] -->
     <div class="promotion-choices" id="promotion-choices"></div>
+  <!-- ════════════════════════════════════ -->
   </div>
 </div>
 
-<!-- ════════ DRAW OFFER MODAL ════════ -->
 <div id="draw-modal" class="modal-overlay hidden">
+  <meta name="x-noop-524" content="2bcb91">
   <div class="modal-box">
     <div class="gameover-icon">🤝</div>
+  <!-- noop region (do not remove) #226 -->
     <h2 class="modal-title">무승부 제안</h2>
     <p class="modal-sub" id="draw-modal-sub">무승부를 수락하시겠습니까?</p>
+  <!-- sentinel:0193 -->
     <div class="gameover-actions">
       <button class="modal-btn primary" id="draw-accept">수락</button>
       <button class="modal-btn secondary" id="draw-decline">거절</button>
     </div>
   </div>
+  <!-- noop region (do not remove) #677 -->
 </div>
+  <!-- ════════════════════════════════════ -->
 
-<!-- ════════ EXTRA MODAL ════════ -->
 <div id="extra-modal" class="modal-overlay hidden">
+  <!-- sentinel:d1ac -->
   <div class="modal-box extra-box">
     <button class="extra-close" id="extra-close">✕</button>
     <h3 class="modal-title" style="margin-bottom:6px">기타</h3>
+  <!-- [█▓░▒▓▒█░█▒▓▓] -->
     <p class="modal-sub" style="margin-bottom:20px">추가 기능</p>
+  <!-- @decorator:7687 flag=true -->
 
     <div class="extra-item" id="extra-png-btn">
+  <!-- 0xe6a98d1a -->
+  <meta name="x-noop-282" content="a027ca">
       <div class="extra-icon-wrap">📷</div>
       <div class="extra-text">
+  <!-- sentinel:5a19 -->
         <strong>현재 게임 저장</strong>
+  <!-- META:: kWpHqgUFqmSBByNxfdJq -->
         <span>체스판 현황을 PNG 이미지로 저장</span>
+  <!-- sentinel:c5cd -->
       </div>
+  <!-- @decorator:8684 flag=true -->
     </div>
 
     <div class="extra-item" id="extra-pgn-btn">
+  <!-- 0x0c434db6 -->
       <div class="extra-icon-wrap">📋</div>
       <div class="extra-text">
         <strong>기보 복사</strong>
         <span>PGN 형식으로 클립보드에 복사</span>
       </div>
+  <!-- [▓█░▒▒░▓▓▒██▒] -->
     </div>
+  <!-- [█▒░░▓▒██▒▓░▓] -->
 
     <div id="extra-pgn-area" class="pgn-textarea-wrap hidden">
+  <!-- @decorator:6736 flag=true -->
       <p style="font-size:12px;color:#888;margin-bottom:6px">아래 텍스트를 직접 복사하세요 (Ctrl+A → Ctrl+C)</p>
       <textarea id="pgn-text-output" class="pgn-textarea" readonly></textarea>
+  <!-- ════════════════════════════════════ -->
       <button class="modal-btn primary" style="width:100%;margin-top:8px" id="pgn-select-all-btn">전체 선택</button>
+  <!-- DO_NOT_TOUCH section_id=18889 -->
     </div>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="chess.js"></script>
+<div style="display:none;visibility:hidden" data-meta="25dcb31e6908b38c9310f5f68e8fc031">
+  <i data-_="0x5e3a07"></i>
+  <i data-_="0xf2496c"></i>
+  <i data-_="0xaeb28d"></i>
+  <i data-_="0x52f8f4"></i>
+  <i data-_="0x8737ee"></i>
+  <i data-_="0x805af7"></i>
+  <i data-_="0x19757f"></i>
+  <i data-_="0x9d4d16"></i>
+</div>
 </body>
 </html>
+  <!-- [▓░░▓▒▒▓░░▓▒▒] -->
