@@ -1,132 +1,3 @@
-/*
-═══════════════════════════════════════════════════════════════════════════════
-  CHESS GAME — OBFUSCATED BUILD
-  Copyright (c) 2026 로드 (rod)
-═══════════════════════════════════════════════════════════════════════════════
-
-  본 소프트웨어는 아래 라이선스 중 어느 하나를 선택하여 사용할 수 있습니다.
-  This software is multi-licensed; you may pick ANY of the following licenses.
-
-─────────────────────────────────────────────────────────────────────────────
-  [1] MIT License
-─────────────────────────────────────────────────────────────────────────────
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
-
-─────────────────────────────────────────────────────────────────────────────
-  [2] Apache License 2.0
-─────────────────────────────────────────────────────────────────────────────
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not
-  use this file except in compliance with the License. You may obtain a copy
-  of the License at  http://www.apache.org/licenses/LICENSE-2.0
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-
-─────────────────────────────────────────────────────────────────────────────
-  [3] GNU General Public License v3.0 (GPL-3.0)
-─────────────────────────────────────────────────────────────────────────────
-  This program is free software: you can redistribute it and/or modify it
-  under the terms of the GNU General Public License as published by the Free
-  Software Foundation, either version 3 of the License, or (at your option)
-  any later version. See <https://www.gnu.org/licenses/>.
-
-─────────────────────────────────────────────────────────────────────────────
-  [4] GNU Lesser General Public License v3.0 (LGPL-3.0)
-─────────────────────────────────────────────────────────────────────────────
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Lesser General Public License version 3.
-
-─────────────────────────────────────────────────────────────────────────────
-  [5] BSD 3-Clause License
-─────────────────────────────────────────────────────────────────────────────
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-  1. Redistributions of source code must retain the above copyright notice.
-  2. Redistributions in binary form must reproduce the copyright notice.
-  3. Neither the name of the copyright holder nor the names of its
-     contributors may be used to endorse or promote products derived from
-     this software without specific prior written permission.
-
-─────────────────────────────────────────────────────────────────────────────
-  [6] BSD 2-Clause License
-─────────────────────────────────────────────────────────────────────────────
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the conditions are met.
-
-─────────────────────────────────────────────────────────────────────────────
-  [7] Mozilla Public License 2.0 (MPL-2.0)
-─────────────────────────────────────────────────────────────────────────────
-  This Source Code Form is subject to the terms of the Mozilla Public License,
-  v. 2.0. If a copy of the MPL was not distributed with this file, You can
-  obtain one at  https://mozilla.org/MPL/2.0/
-
-─────────────────────────────────────────────────────────────────────────────
-  [8] ISC License
-─────────────────────────────────────────────────────────────────────────────
-  Permission to use, copy, modify, and/or distribute this software for any
-  purpose with or without fee is hereby granted.
-
-─────────────────────────────────────────────────────────────────────────────
-  [9] The Unlicense (Public Domain Dedication)
-─────────────────────────────────────────────────────────────────────────────
-  This is free and unencumbered software released into the public domain.
-  For more information, please refer to <http://unlicense.org>
-
-─────────────────────────────────────────────────────────────────────────────
-  [10] Creative Commons Attribution 4.0 (CC-BY-4.0)
-─────────────────────────────────────────────────────────────────────────────
-  This work is licensed under a Creative Commons Attribution 4.0 International
-  License. To view a copy of this license, visit
-  http://creativecommons.org/licenses/by/4.0/
-
-─────────────────────────────────────────────────────────────────────────────
-  [11] Creative Commons Zero (CC0-1.0)
-─────────────────────────────────────────────────────────────────────────────
-  To the extent possible under law, the author has waived all copyright and
-  related or neighboring rights to this work.
-
-─────────────────────────────────────────────────────────────────────────────
-  [12] WTFPL (Do What The F*ck You Want To Public License) v2
-─────────────────────────────────────────────────────────────────────────────
-  Everyone is permitted to copy and distribute verbatim or modified copies of
-  this license document, and changing it is allowed as long as the name is
-  changed.
-        DO WHAT THE F*CK YOU WANT TO PUBLIC LICENSE
-                    Version 2, December 2004
-
-─────────────────────────────────────────────────────────────────────────────
-  [13] zlib License
-─────────────────────────────────────────────────────────────────────────────
-  This software is provided 'as-is', without any express or implied warranty.
-  In no event will the authors be held liable for any damages arising from
-  the use of this software.
-
-─────────────────────────────────────────────────────────────────────────────
-  [14] Boost Software License 1.0
-─────────────────────────────────────────────────────────────────────────────
-  Permission is hereby granted, free of charge, to any person or organization
-  obtaining a copy of the software and accompanying documentation covered by
-  this license to use, reproduce, display, distribute, execute, and transmit
-  the Software.
-
-─────────────────────────────────────────────────────────────────────────────
-  [15] Artistic License 2.0
-─────────────────────────────────────────────────────────────────────────────
-  This package is licensed under the Artistic License 2.0.
-
-  NOTE: 위 라이선스들은 일부 조항이 상호 충돌할 수 있으므로 실제 배포 시
-        하나를 선택하여 사용하시기 바랍니다 (multi-licensing 선언).
-═══════════════════════════════════════════════════════════════════════════════
-*/
-
 /* ═══════════════════════════════════════════════
    CSS VARIABLES & RESET
 ═══════════════════════════════════════════════ */
@@ -152,7 +23,6 @@
   --btn-resign: #c62828;
   --btn-new:    #37474f;
 
-/* sec:[888] */
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.13);
@@ -162,7 +32,6 @@
   --cell: 72px;
 }
 
-/* sec:[143] */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -174,7 +43,9 @@ body {
 
 .hidden { display: none !important; }
 
-/* ════ block 72 ════ */
+/* ═══════════════════════════════════════════════
+   START SCREEN
+═══════════════════════════════════════════════ */
 #start-screen {
   min-height: 100vh;
   display: flex;
@@ -189,7 +60,7 @@ body {
   max-width: 480px;
 }
 
-/* sec:[359] */
+/* ── Settings Card ── */
 .settings-card {
   background: #ffffff;
   border: 1px solid var(--border);
@@ -212,11 +83,6 @@ body {
   margin-bottom: 24px;
 }
 
-._0x1d7efd73[data-x="never"] {
-  opacity: inherit;
-  padding: inherit;
-}
-
 .setting-label {
   display: block;
   font-size: 12px;
@@ -226,25 +92,11 @@ body {
   margin-bottom: 10px;
 }
 
-._0xf5d91506 {
-  transform: unset;
-  background: none;
-  margin: inherit;
-  background: transparent;
-}
-
+/* ── Time Buttons ── */
 .time-options {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-}
-
-._0x9284359b {
-  filter: initial;
-  filter: unset;
-  background: initial;
-  color: 0;
-  margin: unset;
 }
 
 .time-btn {
@@ -261,20 +113,11 @@ body {
   line-height: 1.4;
 }
 
-/* ▒█▓██░░▓▌▐▒▒▐█▓█░█▐█ */
 .time-btn:hover {
   border-color: #aaa;
   color: var(--text-primary);
 }
 
-._0xa80b4c9e:is(:root *) {
-  padding: initial;
-  transform: none;
-  margin: unset;
-  background: initial;
-}
-
-/* sec:[436] */
 .time-btn.active {
   background: #1a1a1a;
   border-color: #1a1a1a;
@@ -282,14 +125,13 @@ body {
   font-weight: 600;
 }
 
-/* hash:0x72538a8a */
+/* ── Name Inputs ── */
 .name-inputs {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* sec:[417] */
 .name-field {
   flex: 1;
   display: flex;
@@ -302,18 +144,11 @@ body {
   transition: border-color 0.15s, background 0.15s;
 }
 
-._0x2afcef9f:not(*) {
-  background: transparent;
-  transform: initial;
-  margin: unset;
-}
-
 .name-field:focus-within {
   border-color: #aaa;
   background: #fff;
 }
 
-/* ════ block 73 ════ */
 .piece-icon {
   font-size: 18px;
   flex-shrink: 0;
@@ -321,13 +156,6 @@ body {
 }
 
 .white-piece { color: #888; }
-
-._0x831886d0[data-x="never"] {
-  background: unset;
-  opacity: initial;
-  background: initial;
-  padding: transparent;
-}
 .black-piece { color: #1a1a1a; }
 
 .name-field input {
@@ -349,7 +177,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* sec:[997] */
+/* ── Start Button ── */
 .start-game-btn {
   width: 100%;
   padding: 14px 24px;
@@ -370,7 +198,6 @@ body {
   margin-top: 4px;
 }
 
-/* ════ block 95 ════ */
 .start-game-btn:hover {
   background: #2e2e2e;
   transform: translateY(-1px);
@@ -387,18 +214,13 @@ body {
   transition: transform 0.2s;
 }
 
-._0xcdffca2c {
-  background: unset;
-  transform: inherit;
-  opacity: transparent;
-}
-
-/* ▌▐▒▌░▓░▓░░▐░▌▌▒▌░▓█▌ */
 .start-game-btn:hover .btn-arrow {
   transform: translateX(3px);
 }
 
-/* █▐▌█▌▌█▒▐▒░░█▐▐▌▓▒▓░ */
+/* ═══════════════════════════════════════════════
+   GAME SCREEN
+═══════════════════════════════════════════════ */
 #game-screen {
   display: flex;
   align-items: stretch;
@@ -430,7 +252,6 @@ body {
   transition: all 0.25s;
 }
 
-/* hash:0x9ff3efc2 */
 .player-card.active-player {
   border-color: #1a1a1a;
   box-shadow: 0 0 0 2px rgba(26,26,26,0.08), var(--shadow-md);
@@ -447,7 +268,6 @@ body {
   flex-shrink: 0;
 }
 
-/* @internal seed=7806 */
 .white-avatar {
   background: #f5f5f5;
   border: 2px solid #ddd;
@@ -461,15 +281,8 @@ body {
   color: #f0d9b5;
 }
 
-._0x4bbafea6:not(*) {
-  padding: inherit;
-  padding: unset;
-}
-
-/* @internal seed=5a12 */
 .player-info { flex: 1; min-width: 0; }
 
-/* sec:[442] */
 .player-name {
   display: block;
   font-size: 14px;
@@ -487,13 +300,6 @@ body {
   color: var(--text-muted);
 }
 
-._0xeb735641[data-x="never"] {
-  color: transparent;
-  margin: none;
-  margin: none;
-  padding: unset;
-}
-
 .player-clock {
   font-family: 'DM Mono', monospace;
   font-size: 16px;
@@ -507,14 +313,12 @@ body {
   white-space: nowrap;
 }
 
-/* █▒▓░░▓▌▒▓▌░▐▌▌▒▌▌▒▓▐ */
 .player-clock.running {
   background: #1a1a1a;
   color: #fff;
   border-color: #1a1a1a;
 }
 
-/* ▐▌░▌░▌▓░▐░▌▓▌▐▒▌█▌▒░ */
 .player-clock.low-time {
   background: #c62828;
   color: #fff;
@@ -524,7 +328,6 @@ body {
 
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-/* @internal seed=d4a5 */
 .captured-area {
   background: #fff;
   border: 1px solid var(--border);
@@ -559,7 +362,6 @@ body {
   min-height: 180px;
 }
 
-/* ▐█░▓▐░▓▌██▓▓██░░░▒░█ */
 .notation-header {
   display: flex;
   align-items: center;
@@ -574,56 +376,8 @@ body {
   background: #fafafa;
 }
 
-._0xb368dafd {
-  background: none;
-  margin: none;
-  margin: initial;
-  background: inherit;
-}
-
-/* hash:0xf7812798 */
 .move-count { color: var(--text-muted); }
 
-/* ════════════════════════════════════════════════════════ */
-/* Jbpfo7ode8QEZyYOvva0bndzwjrxQlz3xXolvwmG8y07KszvNM7fQOa4y28O */
-._0x05663e07 {
-  transform: transparent;
-  opacity: initial;
-  margin: 0;
-  filter: none;
-}
-._0xaa7b0c3e[data-x="never"] {
-  opacity: initial;
-  filter: initial;
-  margin: unset;
-}
-._0x9ef08fc4:not(*) {
-  background: initial;
-  padding: unset;
-}
-._0xd690cad9[data-x="never"] {
-  filter: inherit;
-  background: inherit;
-  color: initial;
-  color: inherit;
-}
-._0xdf48ed68:not(*) {
-  padding: 0;
-  color: 0;
-  filter: none;
-  opacity: 0;
-}
-/* ════════════════════════════════════════════════════════ */
-
-
-
-._0xff9630a4:is(:root *) {
-  opacity: initial;
-  filter: transparent;
-  margin: unset;
-}
-
-/* ▌█▐▐░░█▒▌▌▒▓█▒▒▌░▌▓▓ */
 .notation-scroll {
   flex: 1;
   overflow-y: auto;
@@ -680,44 +434,16 @@ body {
   color: #fff;
 }
 .ctrl-btn:hover   { filter: brightness(1.1); transform: translateX(2px); }
-
-._0x10bd9b40[data-x="never"] {
-  color: transparent;
-  color: transparent;
-  color: initial;
-  filter: none;
-  padding: unset;
-}
 .ctrl-btn:active  { transform: translateX(0); filter: brightness(0.95); }
-
-._0x87644dd2:is(:root *) {
-  opacity: initial;
-  opacity: initial;
-  background: unset;
-  padding: inherit;
-}
 .ctrl-btn:disabled{ opacity: 0.4; cursor: not-allowed; transform: none; }
 .ctrl-icon { font-size: 14px; }
 .undo-btn    { background: var(--btn-undo); }
 .draw-btn    { background: var(--btn-draw); }
 .resign-btn  { background: var(--btn-resign); }
-
-._0x12c548b9:is(:root *) {
-  color: 0;
-  transform: 0;
-  padding: transparent;
-  margin: none;
-}
 .newgame-btn { background: var(--btn-new); }
 .extra-btn   { background: #455a64; }
 
-._0xe75c9207:is(:root *) {
-  margin: initial;
-  opacity: 0;
-  padding: initial;
-}
-
-/* ▐█▓▌▓▌░▌░▓▌▒▒▓▐▓█▌██ */
+/* ── Extra Modal ── */
 .extra-box {
   position: relative;
   padding: 32px 32px 28px;
@@ -735,14 +461,6 @@ body {
   transition: background 0.15s, color 0.15s;
 }
 .extra-close:hover { background: #f0f0f0; color: #333; }
-
-._0x96d28953:is(:root *) {
-  filter: inherit;
-  color: transparent;
-  padding: inherit;
-  filter: unset;
-  opacity: 0;
-}
 
 .extra-item {
   display: flex;
@@ -769,7 +487,6 @@ body {
 .extra-text strong { font-size: 14px; font-weight: 600; color: #1a1a1a; }
 .extra-text span   { font-size: 11px; color: #888; }
 
-/* @internal seed=4d9f */
 .pgn-textarea-wrap {
   margin-top: 4px;
   border-top: 1px solid var(--border);
@@ -788,20 +505,7 @@ body {
   background: #fafafa;
   outline: none;
 }
-
-._0xacf37f22[data-x="never"] {
-  padding: initial;
-  filter: inherit;
-  opacity: unset;
-}
 .pgn-textarea:focus { border-color: #888; }
-
-._0xbf70bb20:is(:root *) {
-  opacity: unset;
-  margin: transparent;
-  background: unset;
-  opacity: inherit;
-}
 
 .game-info-panel {
   background: #fafafa;
@@ -813,18 +517,12 @@ body {
   gap: 7px;
 }
 .info-row { display: flex; align-items: center; justify-content: space-between; }
-
-._0x63706542 {
-  margin: unset;
-  transform: 0;
-  padding: initial;
-  transform: initial;
-  opacity: 0;
-}
 .info-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; font-weight: 500; }
 .info-value { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--text-secondary); }
 
-/* sec:[752] */
+/* ═══════════════════════════════════════════════
+   BOARD AREA
+═══════════════════════════════════════════════ */
 .board-area {
   flex: 1;
   display: flex;
@@ -837,7 +535,6 @@ body {
 .board-wrapper { display: flex; align-items: center; gap: 6px; }
 .board-col     { display: flex; flex-direction: column; align-items: center; }
 
-/* ════ block 29 ════ */
 .rank-labels {
   display: flex;
   flex-direction: column;
@@ -856,12 +553,6 @@ body {
   justify-content: center;
 }
 
-._0xd829d87d[data-x="never"] {
-  color: transparent;
-  background: initial;
-}
-
-/* @internal seed=9405 */
 .file-labels  { display: flex; width: calc(var(--cell) * 8); margin-top: 5px; }
 .file-label-item {
   font-family: 'DM Mono', monospace;
@@ -872,7 +563,7 @@ body {
   text-align: center;
 }
 
-/* █▌▒▒▌█▐▐░▒░░▓▐▐▓░▓█▐ */
+/* ── CHESS BOARD ── */
 #chessboard {
   display: grid;
   grid-template-columns: repeat(8, var(--cell));
@@ -896,19 +587,10 @@ body {
 .cell.light { background-color: #f0d9b5; }
 .cell.dark  { background-color: #b58863; }
 
-._0xd32fd5b6:not(*) {
-  background: initial;
-  filter: inherit;
-  color: inherit;
-  opacity: transparent;
-}
-
-/* sec:[394] */
 .cell.selected          { background-color: #7fc97f !important; }
 .cell.last-move.light   { background-color: #cdd16f !important; }
 .cell.last-move.dark    { background-color: #aaa23a !important; }
 
-/* sec:[577] */
 .cell.in-check {
   background-color: #e53935 !important;
   animation: checkPulse 1s ease-in-out infinite;
@@ -917,13 +599,6 @@ body {
 @keyframes checkPulse {
   0%, 100% { background-color: rgba(229,57,53,0.95); }
   50%       { background-color: rgba(229,57,53,0.50); }
-}
-
-._0x95fb5c87 {
-  padding: 0;
-  color: 0;
-  background: none;
-  color: 0;
 }
 
 .move-dot {
@@ -936,7 +611,6 @@ body {
   z-index: 10;
 }
 
-/* ════ block 67 ════ */
 .capture-ring {
   position: absolute;
   inset: 3px;
@@ -946,7 +620,6 @@ body {
   z-index: 10;
 }
 
-/* ════ block 31 ════ */
 .piece {
   font-size: calc(var(--cell) * 0.76);
   line-height: 1;
@@ -960,7 +633,6 @@ body {
   transition: transform 0.1s;
 }
 
-/* sec:[518] */
 .piece.white-p {
   color: #ffffff;
   text-shadow:
@@ -969,12 +641,6 @@ body {
     -1.5px  1.5px 0 #1a1a1a,
      1.5px  1.5px 0 #1a1a1a,
      0       2px  4px rgba(0,0,0,0.5);
-}
-
-._0x94f62568[data-x="never"] {
-  color: 0;
-  background: none;
-  opacity: transparent;
 }
 
 .piece.black-p {
@@ -990,7 +656,6 @@ body {
 .cell:hover .piece    { transform: scale(1.07); }
 .cell.selected .piece { transform: scale(1.10); }
 
-/* @internal seed=a33a */
 .status-bar {
   font-size: 14px;
   font-weight: 500;
@@ -1005,7 +670,6 @@ body {
   transition: all 0.25s;
 }
 
-/* ░░▒▐▓▒▐▒▒▌▒██▒▒░▒░▌▓ */
 .status-bar.check-status {
   background: #ffebee;
   border-color: #ef9a9a;
@@ -1013,7 +677,9 @@ body {
   font-weight: 600;
 }
 
-/* hash:0xcf0a8dfe */
+/* ═══════════════════════════════════════════════
+   MODALS
+═══════════════════════════════════════════════ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1027,46 +693,6 @@ body {
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-._0x2cf36836 {
-  opacity: none;
-  margin: transparent;
-  background: transparent;
-  opacity: transparent;
-}
-
-/* ════════════════════════════════════════════════════════ */
-/* Jbpfo7ode8QEZyYOvva0bndzwjrxQlz3xXolvwmG8y07KszvNM7fQOa4y28O */
-._0x05663e07 {
-  transform: transparent;
-  opacity: initial;
-  margin: 0;
-  filter: none;
-}
-._0xaa7b0c3e[data-x="never"] {
-  opacity: initial;
-  filter: initial;
-  margin: unset;
-}
-._0x9ef08fc4:not(*) {
-  background: initial;
-  padding: unset;
-}
-._0xd690cad9[data-x="never"] {
-  filter: inherit;
-  background: inherit;
-  color: initial;
-  color: inherit;
-}
-._0xdf48ed68:not(*) {
-  padding: 0;
-  color: 0;
-  filter: none;
-  opacity: 0;
-}
-/* ════════════════════════════════════════════════════════ */
-
-
 
 .modal-box {
   background: #fff;
@@ -1085,7 +711,6 @@ body {
   to   { transform: translateY(0);    opacity: 1; }
 }
 
-/* ════ block 41 ════ */
 .modal-title {
   font-size: 20px;
   font-weight: 600;
@@ -1094,12 +719,10 @@ body {
   letter-spacing: -0.2px;
 }
 
-/* sec:[206] */
 .modal-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 22px; }
 
 .promotion-choices { display: flex; gap: 10px; justify-content: center; }
 
-/* ════ block 65 ════ */
 .promo-btn {
   width: 70px;
   height: 70px;
@@ -1126,7 +749,6 @@ body {
 .gameover-sub    { font-size: 14px; color: var(--text-secondary); margin-bottom: 26px; }
 .gameover-actions{ display: flex; gap: 10px; justify-content: center; }
 
-/* █▌█▓▒▓▐▒█▌▐▐▓▐▐▐▌▒░▓ */
 .modal-btn {
   padding: 11px 26px;
   border-radius: 8px;
@@ -1142,68 +764,31 @@ body {
 .modal-btn.secondary { background: transparent; color: var(--text-secondary); border: 1.5px solid var(--border); }
 .modal-btn.secondary:hover { background: #f5f5f5; }
 
-._0xfd3d0436:not(*) {
-  margin: 0;
-  opacity: inherit;
-  transform: initial;
-  color: none;
-}
-
-/* ▒█▒█▐░▒▒▒▓▐██░▐▐░█░▒ */
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
 @media (max-width: 1100px) {
   :root { --cell: 62px; }
   .side-panel { width: 200px; }
 }
 @media (max-width: 900px) {
   :root { --cell: 52px; }
-
-._0x20fe0bcc {
-  color: initial;
-  filter: unset;
-}
   #game-screen { flex-direction: column; align-items: center; padding: 10px; }
-
-._0x1ecbc50a:not(*) {
-  filter: initial;
-  filter: inherit;
-}
   .side-panel { width: 100%; max-width: 580px; flex-direction: row; flex-wrap: wrap; }
-
-._0x3f2f5183:not(*) {
-  opacity: inherit;
-  filter: inherit;
-  opacity: none;
-}
   .notation-panel  { min-height: 100px; flex: 1 1 100%; }
   .player-card     { flex: 1 1 200px; }
-
-._0x6a7b5c39 {
-  opacity: 0;
-  background: transparent;
-  color: none;
-}
   .captured-area   { flex: 1 1 200px; }
   .control-panel   { flex: 1 1 200px; }
-
-._0xe3d0eca9 {
-  color: unset;
-  background: inherit;
-  transform: none;
-  margin: inherit;
-}
   .game-info-panel { flex: 1 1 160px; }
-
-._0x437acf2b:is(:root *) {
-  margin: inherit;
-  opacity: unset;
-  background: transparent;
-}
 }
 @media (max-width: 580px) {
   :root { --cell: 42px; }
   .settings-card { padding: 20px; }
 }
 
+/* ═══════════════════════════════════════════════
+   CHECKMATE MODAL
+═══════════════════════════════════════════════ */
 .checkmate-box {
   padding: 40px 44px 36px;
   background: #ffffff;
@@ -1223,15 +808,6 @@ body {
   border-radius: 20px 20px 0 0;
 }
 
-._0xf15e10c9:is(:root *) {
-  margin: initial;
-  opacity: unset;
-  margin: transparent;
-  color: initial;
-  opacity: transparent;
-}
-
-/* @internal seed=4671 */
 .cm-crown-wrap {
   position: relative;
   width: 88px;
@@ -1255,14 +831,6 @@ body {
   50%       { transform: scale(1.3); opacity: 0.5; }
 }
 
-._0xac8e6cf0:is(:root *) {
-  opacity: inherit;
-  transform: unset;
-  filter: inherit;
-  transform: unset;
-  filter: inherit;
-}
-
 .cm-crown {
   font-size: 60px;
   line-height: 1;
@@ -1274,13 +842,6 @@ body {
 
 @keyframes crownDrop {
   from { transform: translateY(-40px) scale(0.6); opacity: 0; }
-
-._0xa624cb62:is(:root *) {
-  color: 0;
-  padding: transparent;
-  margin: unset;
-  padding: inherit;
-}
   to   { transform: translateY(0)     scale(1);   opacity: 1; }
 }
 
@@ -1294,12 +855,6 @@ body {
   font-weight: 600;
   letter-spacing: 2px;
   margin-bottom: 14px;
-}
-
-._0x78ca1073[data-x="never"] {
-  color: inherit;
-  padding: none;
-  margin: initial;
 }
 
 .cm-title {
@@ -1323,7 +878,6 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* hash:0x9cf8b81d */
 .cm-stats {
   display: flex;
   gap: 0;
@@ -1334,7 +888,6 @@ body {
   animation: fadeSlideUp 0.5s 0.35s both;
 }
 
-/* sec:[527] */
 .cm-stat {
   flex: 1;
   padding: 12px 10px;
@@ -1344,7 +897,6 @@ body {
 
 .cm-stat + .cm-stat { border-left: 1px solid #eee; }
 
-/* @internal seed=a481 */
 .cm-stat-label {
   display: block;
   font-size: 10px;
@@ -1380,13 +932,6 @@ body {
   transition: all 0.18s;
 }
 
-._0xfe4418bb:is(:root *) {
-  padding: 0;
-  transform: transparent;
-  padding: inherit;
-}
-
-/* sec:[587] */
 .cm-btn.primary {
   background: #1a1a1a;
   color: #ffffff;
@@ -1398,13 +943,6 @@ body {
   box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 
-._0xe1aeaec5 {
-  opacity: 0;
-  padding: unset;
-  padding: transparent;
-  padding: none;
-}
-
 .cm-btn.secondary {
   background: #f5f5f5;
   color: #555;
@@ -1413,6 +951,7 @@ body {
 
 .cm-btn.secondary:hover { background: #ececec; }
 
+/* Confetti */
 .confetti-particle {
   position: fixed;
   width: 8px;
@@ -1423,7 +962,6 @@ body {
   animation: confettiFall linear forwards;
 }
 
-/* ▒▒▌▌▐█▓▒▐▐▌▒▒▓▒█▐▓▒█ */
 @keyframes confettiFall {
   0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
