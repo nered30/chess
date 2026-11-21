@@ -5,7 +5,10 @@
 import { Chess } from 'chess.js';
 import './board.css';
 
-const GLYPH = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
+// 기물 그림: cburnett 세트 (Colin M.L. Burnett, GPLv2+) — public/pieces/
+function pieceHtml(color, type) {
+  return `<div class="pc ${color}${type.toUpperCase()}"></div>`;
+}
 const FILES = 'abcdefgh';
 
 export class Board {
@@ -91,7 +94,7 @@ export class Board {
         if (dests.includes(sq)) cls.push(p ? 'cap' : 'dest');
         if (this.marks[sq]) cls.push('mark-' + this.marks[sq]);
         let inner = '';
-        if (p) inner = `<span class="pc ${p.color}">${GLYPH[p.type]}︎</span>`;
+        if (p) inner = pieceHtml(p.color, p.type);
         if (col === 0) inner += `<i class="coord r">${sq[1]}</i>`;
         if (row === 7) inner += `<i class="coord f">${sq[0]}</i>`;
         html += `<div class="${cls.join(' ')}" data-sq="${sq}">${inner}</div>`;
@@ -148,7 +151,7 @@ export class Board {
   _askPromotion(from, to) {
     const color = this.chess.turn();
     this.promoEl.innerHTML = ['q', 'r', 'b', 'n']
-      .map((p) => `<button data-p="${p}"><span class="pc ${color}">${GLYPH[p]}︎</span></button>`)
+      .map((p) => `<button data-p="${p}">${pieceHtml(color, p)}</button>`)
       .join('');
     this.promoEl.classList.remove('hidden');
     this.promoEl.onclick = (e) => {
@@ -181,7 +184,6 @@ export class Board {
           const ghost = pc.cloneNode(true);
           ghost.classList.add('ghost');
           const size = this.boardEl.getBoundingClientRect().width / 8;
-          ghost.style.fontSize = getComputedStyle(pc).fontSize;
           ghost.style.width = ghost.style.height = size + 'px';
           document.body.appendChild(ghost);
           drag = { from: sq, ghost, size, moved: false, pc };

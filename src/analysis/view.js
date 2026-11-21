@@ -5,9 +5,9 @@ import { getMainEngine } from '../engine/browser.js';
 import { listGames } from '../play/history.js';
 import { lookupOpening } from '../openings/openings.js';
 import { renderMoves } from '../ui/movelist.js';
-import { $, esc, fmtEval, whiteBarPct } from '../ui/dom.js';
+import { $, esc, fmtEval, sanLine, whiteBarPct } from '../ui/dom.js';
 import { analyzeGame } from './analyzer.js';
-import { CLASSES, needsHint } from './classify.js';
+import { CLASSES } from './classify.js';
 
 const ORDER = ['brilliant', 'great', 'best', 'excellent', 'good', 'book', 'inaccuracy', 'mistake', 'blunder'];
 
@@ -117,6 +117,7 @@ export function mount(root, ctx, payload) {
       <div class="bar"><span class="muted" id="evtxt"></span><span class="row"><button class="btn" id="flip">⇅</button><button class="btn" id="first">⏮</button><button class="btn" id="prev">◀</button><button class="btn" id="next">▶</button><button class="btn" id="lastb">⏭</button></span></div>
       <div class="opening" id="opening"></div>
       <div class="coach" id="info"></div>
+      <div class="engine" id="engine"></div>
       <div class="moves" id="moves"></div>
       <canvas class="graph" id="graph" style="margin-top:8px"></canvas>
       <div class="panel" id="summary"></div>
@@ -138,6 +139,7 @@ export function mount(root, ctx, payload) {
     drawGraph(res, $('#graph', root), (i) => go(i));
 
     function go(i) {
+      playing++;
       idx = i;
       const fen = res.fens[idx + 1];
       board.setFen(fen);
@@ -158,20 +160,31 @@ export function mount(root, ctx, payload) {
         const dots = mv.color === 'w' ? '.' : '…';
         html = `<b style="color:${c.color}">${no}${dots} ${esc(mv.san)}${c.sym && c.sym !== '📖' ? c.sym : ''} — ${c.label}</b> <span class="muted">정확도 ${Math.round(mv.acc)}%</span>`;
         if (mv.why) html += `<div class="why">${esc(mv.why).replace(/\n/g, '<br>')}</div>`;
-        if (needsHint(mv.cls) && mv.bestSan) {
-          html += `<div class="muted">초록 화살표 = 최선수 ${esc(mv.bestSan)}</div>`;
+        // 둔 수가 최선수가 아니면 무엇이 최선이었는지 항상 보여줍니다
+        if (mv.bestSan && mv.best !== mv.uci) {
+          const bestEval = fmtEval(res.lines[idx].cpWhite);
+          html += `<div class="bestline">이 자리의 최선수: <b>${esc(mv.bestSan)}</b> (${bestEval}) <span class="muted">· 초록 화살표</span></div>`;
           arrows.push({ from: mv.best.slice(0, 2), to: mv.best.slice(2, 4), color: '#15781b' });
         }
       } else {
         html = '<span class="muted">시작 포지션</span>';
       }
-      const nextBest = res.bests[idx + 1];
-      if (nextBest) {
-        arrows.push({ from: nextBest.slice(0, 2), to: nextBest.slice(2, 4), color: '#003088' });
-        html += '<br><span class="muted">파란 화살표 = 지금 포지션의 엔진 최선수</span>';
-      }
       board.setArrows(arrows);
       $('#info', root).innerHTML = html;
+
+      // 지금 포지션에서 엔진이 보는 최선 수순
+      const line = res.lines[idx + 1];
+      const eng = $('#engine', root);
+      if (line && line.pv.length) {
+        arrows.push({ from: line.pv[0].slice(0, 2), to: line.pv[0].slice(2, 4), color: '#003088' });
+        board.setArrows(arrows);
+        eng.innerHTML = `<div><span class="muted">다음 최선수</span> <b>${esc(sanLine(Chess, fen, line.pv, 1).replace(/^\d+(\.|…) /, ''))}</b> <span class="eval">${fmtEval(line.cpWhite)}</span> <span class="muted">· 파란 화살표</span></div>
+          <div class="pv">${esc(sanLine(Chess, fen, line.pv, 10))}</div>
+          <button class="btn" id="playpv">▶ 최선 수순 판에서 보기</button>`;
+        $('#playpv', root).onclick = () => playLine(fen, line.pv.slice(0, 10));
+      } else {
+        eng.innerHTML = `<span class="muted">대국이 끝난 포지션이에요.</span>`;
+      }
       $('#info', root).style.borderLeftColor = mv ? CLASSES[mv.cls].color : 'var(--dim)';
       renderMoves($('#moves', root), res.moves.map((m) => m.san), {
         cls: res.moves.map((m) => m.cls),
@@ -180,6 +193,23 @@ export function mount(root, ctx, payload) {
         firstNo,
         onClick: go,
       });
+    }
+
+    // 엔진 수순을 판 위에서 한 수씩 보여주고, 끝나면 원래 포지션으로 돌아옵니다
+    let playing = 0;
+    async function playLine(fen, pv) {
+      const my = ++playing;
+      const c = new Chess(fen);
+      board.setArrows([]);
+      for (const uci of pv) {
+        await new Promise((r) => setTimeout(r, 700));
+        if (my !== playing || !alive) return;
+        const m = c.move({ from: uci.slice(0, 2), to: uci.slice(2, 4), promotion: uci[4] });
+        board.setFen(c.fen());
+        board.setLastMove(m.from, m.to);
+      }
+      await new Promise((r) => setTimeout(r, 1500));
+      if (my === playing && alive) go(idx);
     }
 
     go(idx);

@@ -127,13 +127,10 @@ export function explainMove(p) {
       const g = followLine(fenBefore, before.pv, 4, me);
       if (g.net >= 2 && g.won.length) {
         lines.push(`최선수 ${iro(bestSan)} ${eul(NAME[biggest(g.won)])} 얻을 수 있었어요. (${g.sans.join(' ')})`);
-      } else {
-        lines.push(`최선수는 ${bestSan}였어요.`);
       }
     }
-    if (lines.length === 1 && !lines[0].includes('메이트') && !lines[0].includes('잃게')) {
-      lines.unshift('당장 기물을 잃지는 않지만 포지션이 나빠지는 수예요.');
-    }
+    // 기물 손실이나 메이트 같은 뚜렷한 이유가 없으면 포지션 문제
+    if (!lines.length) lines.push('당장 기물을 잃지는 않지만 포지션이 나빠지는 수예요.');
     const label = { inaccuracy: '?! 부정확', mistake: '? 실수', blunder: '?? 블런더' }[cls];
     const range = {
       inaccuracy: `${THRESHOLDS.good}~${THRESHOLDS.inaccuracy}%p`,

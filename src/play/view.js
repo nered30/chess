@@ -158,20 +158,33 @@ export function mount(root, ctx) {
     const s = state;
     const el = $('#actions', root);
     if (s.over) {
-      el.innerHTML = `<button class="btn primary grow" id="an">분석하기</button><button class="btn grow" id="new">새 대국</button><button class="btn" id="flip">⇅</button>`;
+      el.innerHTML = `<button class="btn primary grow" id="an">분석하기</button><button class="btn grow" id="again">다시 시작</button><button class="btn grow" id="new">설정 바꾸기</button><button class="btn" id="flip">⇅</button>`;
+      $('#again', root).onclick = restart;
       $('#an', root).onclick = () => ctx.go('analysis', { startFen: START, moves: s.moves, title: s.title });
       $('#new', root).onclick = () => {
         state = null;
         showSetup();
       };
     } else {
-      el.innerHTML = `<button class="btn" id="flip">⇅</button><button class="btn grow" id="undo">무르기</button><button class="btn grow" id="resign">기권</button>`;
+      el.innerHTML = `<button class="btn" id="flip">⇅</button><button class="btn grow" id="undo">무르기</button><button class="btn grow" id="again">다시 시작</button><button class="btn grow" id="resign">기권</button>`;
       $('#undo', root).onclick = takeback;
+      $('#again', root).onclick = () => {
+        if (s.moves.length < 2 || confirm('지금 대국을 그만두고 처음부터 다시 둘까요?\n(이 대국은 레이팅에 반영되지 않아요)')) restart();
+      };
       $('#resign', root).onclick = () => {
         if (confirm('기권할까요?')) finish(0, '기권했어요');
       };
     }
     $('#flip', root).onclick = () => s.board.flip();
+  }
+
+  // 같은 설정(레벨, 코치 모드)으로 처음부터 다시 둡니다
+  function restart() {
+    const s = state;
+    engine.stop();
+    const color = prefs.color === 'random' ? (Math.random() < 0.5 ? 'w' : 'b') : s.color;
+    state = null;
+    startGame(color, s.level, s.coach);
   }
 
   function applyMove(uci) {

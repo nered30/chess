@@ -40,28 +40,28 @@
 .sq.mark-good { box-shadow: inset 0 0 0 100vmax rgba(80, 180, 80, 0.55); }
 .sq.mark-bad { box-shadow: inset 0 0 0 100vmax rgba(220, 50, 50, 0.55); }
 .pc {
-  font-family: 'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', serif;
-  font-size: 10cqw;
-  line-height: 1;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
   pointer-events: none;
   position: relative;
   z-index: 1;
 }
-.pc.w {
-  color: #fff;
-  -webkit-text-stroke: 0.6px #000;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-.pc.b {
-  color: #000;
-  -webkit-text-stroke: 0.3px #555;
-}
+.pc.wK { background-image: url(/pieces/wK.svg); }
+.pc.wQ { background-image: url(/pieces/wQ.svg); }
+.pc.wR { background-image: url(/pieces/wR.svg); }
+.pc.wB { background-image: url(/pieces/wB.svg); }
+.pc.wN { background-image: url(/pieces/wN.svg); }
+.pc.wP { background-image: url(/pieces/wP.svg); }
+.pc.bK { background-image: url(/pieces/bK.svg); }
+.pc.bQ { background-image: url(/pieces/bQ.svg); }
+.pc.bR { background-image: url(/pieces/bR.svg); }
+.pc.bB { background-image: url(/pieces/bB.svg); }
+.pc.bN { background-image: url(/pieces/bN.svg); }
+.pc.bP { background-image: url(/pieces/bP.svg); }
 .pc.ghost {
   position: fixed;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   pointer-events: none;
 }
 .coord {
@@ -103,4 +103,4 @@
   border-radius: 50%;
   container-type: inline-size;
 }
-.promo .pc { font-size: 70cqw; }
+.promo .pc { width: 80%; height: 80%; margin: auto; }

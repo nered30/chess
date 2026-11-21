@@ -27,6 +27,7 @@ export function mount(root) {
       <div class="muted">
         체스 엔진: Stockfish 18 (GPL-3.0) · stockfish.js by Nathan Rugg / Chess.com<br>
         오프닝 이름: lichess-org/chess-openings (CC0)<br>
+        기물 그림: cburnett (Colin M.L. Burnett, GPLv2+)<br>
         이 앱은 AGPL-3.0 라이선스로 배포됩니다. 모든 계산은 폰 안에서 이루어져요.
       </div>
     </div>`;

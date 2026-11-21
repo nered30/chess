@@ -147,6 +147,8 @@ export async function analyzeGame(engine, game, { depth = 14, onProgress, should
     startEvalWhite: startTurn === 'w' ? evals[0].cp : -evals[0].cp,
     moves: out,
     bests: evals.map((e) => e.best),
+    // 포지션마다 엔진 최선 수순과 평가(백 기준)
+    lines: evals.map((e, i) => ({ pv: e.pv, cpWhite: fens[i].split(' ')[1] === 'w' ? e.cp : -e.cp })),
     accuracy: { w: gameAccuracy(accs.w), b: gameAccuracy(accs.b) },
     counts,
   };
