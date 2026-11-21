@@ -1,16 +1,18 @@
-// 퍼즐 생성기를 Node 에서 돌려보는 실험 스크립트
+// 퍼즐 생성기를 Node 에서 돌려보는 실험 스크립트: node scripts/try-generator.mjs [판수]
 import { createNodeEngine } from '../tests/node-engine.mjs';
-import { harvestGame, generateEndgame, KINDS } from '../src/puzzles/generator.js';
+import { harvestGame, KINDS } from '../src/puzzles/generator.js';
 
 const engine = await createNodeEngine();
 const games = +(process.argv[2] || 3);
 const t0 = Date.now();
-const found = [];
+const tally = {};
 for (let g = 0; g < games; g++) {
-  const ps = await harvestGame(engine, { want: new Set(Object.keys(KINDS)) });
-  found.push(...ps);
-  console.log(`game ${g + 1}: ${((Date.now() - t0) / 1000).toFixed(1)}s`, ps.map((p) => `${p.kind}(${p.rating}) ${p.solution.join(' ')}`).join(' | '));
+  const want = new Set(Object.keys(KINDS).filter((k) => k !== 'endgame'));
+  const ps = await harvestGame(engine, { want });
+  for (const p of ps) {
+    tally[p.kind] = (tally[p.kind] || 0) + 1;
+    console.log(`${p.kind}${p.theme ? '[' + p.theme + ']' : ''}${p.opening ? '{' + p.opening + '}' : ''} r${p.rating} ${p.fen} | ${p.solution.join(' ')}`);
+  }
 }
-const eg = await generateEndgame(engine);
-console.log('endgame', ((Date.now() - t0) / 1000).toFixed(1) + 's', eg && `${eg.goal} ${eg.fen} ${eg.solution.join(' ')} r${eg.rating}`);
+console.log(`${games}판 ${((Date.now() - t0) / 1000).toFixed(0)}초`, tally);
 process.exit(0);

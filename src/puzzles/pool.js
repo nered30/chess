@@ -7,6 +7,7 @@ import { KINDS, harvestGame, generateEndgame } from './generator.js';
 
 const TARGET = 3; // 종류별로 미리 만들어 둘 개수
 const SEEN_MAX = 5000;
+const FAVORED = new Set(['sacmate', 'opening', 'best']);
 
 let pool = load('pool', {});
 let seen = new Set(load('seen', []));
@@ -48,7 +49,9 @@ export function takePuzzle(kind, myRating) {
     list = pool[kind] || [];
   }
   if (!list.length) return null;
-  const pick = list.reduce((a, b) => (Math.abs(b.rating - myRating) < Math.abs(a.rating - myRating) ? b : a));
+  // 맞춤 모드에서는 희생 메이트, 오프닝 함정, 최선의 수를 우선 보여줍니다 (레이팅 차이 250 까지 양보)
+  const score = (p) => Math.abs(p.rating - myRating) - (kind === 'mix' && FAVORED.has(p.kind) ? 250 : 0);
+  const pick = list.reduce((a, b) => (score(b) < score(a) ? b : a));
   pool[pick.kind] = pool[pick.kind].filter((p) => p !== pick);
   seen.add(epd(pick.fen));
   persist();

@@ -81,3 +81,22 @@ test('희생수 판정', () => {
   assert.equal(isSacrifice(fen, 'c4f7', ['e8f7']), true);
   assert.equal(isSacrifice(fen, 'e1g1', ['e8g8']), false);
 });
+
+test('희생 판정: 퀸을 내주고 메이트', async () => {
+  const { findSacrifice } = await import('../src/puzzles/generator.js');
+  // 백 Qxh7+ Kxh7 Rh3# 형태 (퀸 희생)
+  const fen = '5rk1/5ppp/8/8/8/7R/5PPP/3Q2K1 w - - 0 1';
+  const c = new Chess(fen);
+  assert.ok(c.moves().length > 0);
+  assert.equal(findSacrifice('6k1/5ppp/8/8/8/8/5PPP/3QR1K1 w - - 0 1', ['e1e8']), null);
+  // 퀸이 잡히는 수순
+  assert.equal(findSacrifice('r5k1/5ppp/8/8/8/8/5PPP/3Q2K1 w - - 0 1', ['d1d8', 'a8d8']), '퀸');
+});
+
+test('희생 판정: 상대가 안 잡아도 내준 기물은 희생', async () => {
+  const { findSacrifice } = await import('../src/puzzles/generator.js');
+  // 백 Qh7+?? 처럼 지켜지지 않는 칸으로 퀸을 보내는 수 (상대 킹이 잡을 수 있음)
+  assert.equal(findSacrifice('6k1/5pp1/8/8/8/8/5PPP/3Q2K1 w - - 0 1', ['d1d8']), null);
+  // Qh5 … a6, Qh7+ : 킹이 잡을 수 있는 칸에 퀸을 둠
+  assert.equal(findSacrifice('6k1/p4pp1/8/8/8/8/5PPP/3Q2K1 w - - 0 1', ['d1h5', 'a7a6', 'h5h7']), '퀸');
+});

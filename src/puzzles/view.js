@@ -65,7 +65,15 @@ export function mount(root, ctx) {
 
   function goalText(p, color) {
     const side = color === 'w' ? '백' : '흑';
-    if (p.goal === 'mate') return `${side} 차례 · <b>${KINDS[p.kind].n}수 안에 메이트</b>하세요`;
+    const n = p.n ?? KINDS[p.kind]?.n;
+    if (p.kind === 'sacmate') return `${side} 차례 · <b>${n}수 안에 메이트</b>하세요<br><span class="muted">과감한 희생이 숨어 있어요!</span>`;
+    if (p.kind === 'opening') {
+      const op = p.opening ? ` (${esc(p.opening)})` : '';
+      const goal = p.goal === 'mate' ? `${n}수 안에 메이트` : '이기는 수';
+      return `${side} 차례 · 오프닝 함정${op}<br><b>${goal}</b>를 찾으세요`;
+    }
+    if (p.goal === 'best') return `${side} 차례 · <b>최선의 수</b>를 찾으세요<br><span class="muted">다른 수를 두면 크게 불리해져요</span>`;
+    if (p.goal === 'mate') return `${side} 차례 · <b>${n}수 안에 메이트</b>하세요`;
     if (p.goal === 'draw') return `${side} 차례 · <b>비기는 수</b>를 찾으세요`;
     if (p.kind === 'endgame') return `${side} 차례 · <b>이기는 수</b>를 찾으세요 (엔드게임)`;
     return `${side} 차례 · <b>가장 좋은 수</b>를 찾으세요`;
@@ -226,7 +234,8 @@ export function mount(root, ctx) {
     save('puzzleStats', stats);
     renderHeader();
     if (skipped) return;
-    msg(`${text}<br><span class="muted">${esc(KINDS[c.p.kind].label)} · 난이도 ${c.p.rating}</span>`, success ? 'var(--accent)' : 'var(--dim)');
+    const theme = c.p.theme ? ` · ${esc(c.p.theme)}` : '';
+    msg(`${text}<br><span class="muted">${esc(KINDS[c.p.kind]?.label || '퍼즐')}${theme} · 난이도 ${c.p.rating}</span>`, success ? 'var(--accent)' : 'var(--dim)');
     actions(`<button class="btn primary grow" id="next">다음 퍼즐</button><button class="btn" id="an">분석</button>`);
     $('#next', root).onclick = next;
     $('#an', root).onclick = () => {
@@ -236,7 +245,7 @@ export function mount(root, ctx) {
         start = c.p.startFen;
         moves.push(c.p.setup);
       }
-      ctx.go('analysis', { startFen: start, moves: moves.concat(c.p.solution), title: `퍼즐 (${KINDS[c.p.kind].label})` });
+      ctx.go('analysis', { startFen: start, moves: moves.concat(c.p.solution), title: `퍼즐 (${KINDS[c.p.kind]?.label || ''})` });
     };
   }
 

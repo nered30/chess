@@ -10,6 +10,7 @@
 import { Chess } from 'chess.js';
 import { FULL_STRENGTH } from '../engine/uci.js';
 import { uciToObj } from '../analysis/analyzer.js';
+import { lookupOpening } from '../openings/openings.js';
 import { randomEndgame } from './endgames.js';
 
 export const KINDS = {
@@ -18,11 +19,67 @@ export const KINDS = {
   mate3: { label: '3수 메이트', goal: 'mate', n: 3 },
   mate4: { label: '4수 메이트', goal: 'mate', n: 4 },
   mate5: { label: '5수 메이트', goal: 'mate', n: 5 },
+  sacmate: { label: '희생 메이트', goal: 'mate' },
+  opening: { label: '오프닝 함정', goal: 'win' },
+  best: { label: '최선의 수', goal: 'best' },
   tactic: { label: '전술', goal: 'win' },
   endgame: { label: '엔드게임', goal: 'win' },
 };
 
-const BASE_RATING = { mate1: 700, mate2: 1200, mate3: 1600, mate4: 1900, mate5: 2100, tactic: 1300, endgame: 1500 };
+const BASE_RATING = {
+  mate1: 700, mate2: 1200, mate3: 1600, mate4: 1900, mate5: 2100,
+  sacmate: 1500, opening: 1100, best: 1400, tactic: 1300, endgame: 1500,
+};
+
+const PIECE_NAME = { p: '폰', n: '나이트', b: '비숍', r: '룩', q: '퀸' };
+const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+
+/** 방금 움직인 기물을 상대가 이득을 보며 잡을 수 있는지 (공짜로 내주거나 더 싼 기물에 잡힘) */
+function isOffered(c, m) {
+  if (m.san.includes('#') || VAL[m.piece] < 3) return false;
+  const opp = m.color === 'w' ? 'b' : 'w';
+  const attackers = c.attackers(m.to, opp);
+  if (!attackers.length) return false;
+  const cheapest = Math.min(...attackers.map((sq) => VAL[c.get(sq).type] || 100));
+  const defended = c.attackers(m.to, m.color).length > 0;
+  const gain = VAL[m.piece] - (m.captured ? VAL[m.captured] : 0);
+  return gain >= 3 && (!defended || cheapest < VAL[m.piece]);
+}
+
+/**
+ * 정답 수순에서 퍼즐을 푸는 쪽이 내주는 기물을 찾습니다.
+ * - 상대가 실제로 잡는 경우: 나이트 이상을 잃거나 3점 이상 손해
+ * - 상대가 안 잡더라도: 나이트 이상을 잡힐 수 있는 칸에 일부러 둔 경우
+ * @returns {string|null} 희생한 가장 큰 기물 이름
+ */
+export function findSacrifice(fen, solution) {
+  const c = new Chess(fen);
+  const me = c.turn();
+  let bal = 0;
+  let min = 0;
+  let biggest = null;
+  for (const uci of solution) {
+    let m;
+    try {
+      m = c.move(uciToObj(uci));
+    } catch {
+      return null;
+    }
+    if (m.color === me && isOffered(c, m) && (!biggest || VAL[m.piece] > VAL[biggest])) biggest = m.piece;
+    if (m.captured) {
+      const v = VAL[m.captured];
+      if (m.color === me) bal += v;
+      else {
+        bal -= v;
+        if (!biggest || v > VAL[biggest]) biggest = m.captured;
+      }
+    }
+    min = Math.min(min, bal);
+  }
+  if (biggest && (VAL[biggest] >= 3 || min <= -3)) return PIECE_NAME[biggest];
+  if (min <= -3) return '기물';
+  return null;
+}
 
 function search(engine, fen, depth, multipv = 1) {
   return engine.search({ fen, depth, multipv, options: FULL_STRENGTH });
@@ -85,6 +142,7 @@ async function verifyMate(engine, cand, rng) {
   return {
     kind,
     goal: 'mate',
+    n,
     fen: cand.fen,
     startFen: cand.prevFen,
     setup: cand.setup,
@@ -134,6 +192,29 @@ async function verifyTactic(engine, cand, rng) {
   };
 }
 
+/* ---------------- 최선의 수 ---------------- */
+
+// 승부가 아직 안 난 포지션에서, 다른 수를 두면 크게 불리해지는 "유일한 좋은 수"
+async function verifyBest(engine, cand, rng) {
+  const deep = await search(engine, cand.fen, 16, 2);
+  const [top, second] = deep.lines;
+  if (!top || !second || top.mate || Math.abs(top.cp) > 300) return null;
+  if (top.cp - second.cp < 150) return null;
+  const first = new Chess(cand.fen).move(uciToObj(top.pv[0]));
+  // 지켜지지 않은 큰 기물을 잡는 뻔한 수는 제외
+  if (first.captured && VAL[first.captured] >= 3) return null;
+  return {
+    kind: 'best',
+    goal: 'best',
+    fen: cand.fen,
+    startFen: cand.prevFen,
+    setup: cand.setup,
+    solution: [top.pv[0]],
+    cps: [top.cp],
+    rating: await estimateRating(engine, 'best', cand.fen, [top.pv[0]], 0, rng),
+  };
+}
+
 /* ---------------- 셀프 대국 수확 ---------------- */
 
 /**
@@ -142,16 +223,24 @@ async function verifyTactic(engine, cand, rng) {
  */
 export async function harvestGame(engine, { want, rng = Math.random, shouldStop = () => false, isSeen = () => false }) {
   const c = new Chess();
-  const skills = { w: 1 + Math.floor(rng() * 9), b: 1 + Math.floor(rng() * 9) };
-  const openingPlies = 6 + Math.floor(rng() * 6);
+  // 오프닝 함정 모드: 아주 약하게 두면서 30수(반수)까지만 둡니다 → 초반 실수가 잘 나옵니다
+  // 오프닝 함정만 부족하면 대부분 오프닝 모드로 둡니다
+  const early = want.has('opening') && rng() < (want.size <= 2 ? 0.9 : 0.5);
+  const skills = early
+    ? { w: Math.floor(rng() * 3), b: Math.floor(rng() * 3) }
+    : { w: 1 + Math.floor(rng() * 9), b: 1 + Math.floor(rng() * 9) };
+  const openingPlies = early ? 2 + Math.floor(rng() * 6) : 6 + Math.floor(rng() * 6);
+  const maxPly = early ? 40 : 140;
+  let openingName = null;
   const hist = []; // {fen, uci, captured}
   const cands = [];
   let prevMine = 0; // 직전 포지션의 평가(지금 둘 차례 기준)
   let mateChainSide = null;
 
-  for (let ply = 0; ply < 140 && !c.isGameOver(); ply++) {
+  for (let ply = 0; ply < maxPly && !c.isGameOver(); ply++) {
     if (shouldStop()) return [];
     const fen = c.fen();
+    openingName = lookupOpening(fen)?.name || openingName;
     const turn = c.turn();
     let mv;
     if (ply < openingPlies) {
@@ -170,7 +259,7 @@ export async function harvestGame(engine, { want, rng = Math.random, shouldStop 
       mv = r.bestmove;
       const [top, second] = r.lines;
       const last = hist[hist.length - 1];
-      const base = { fen, prevFen: last?.fen, setup: last?.uci, setupCaptured: last?.captured, ply, turn };
+      const base = { fen, prevFen: last?.fen, setup: last?.uci, setupCaptured: last?.captured, ply, turn, early, openingName };
       if (top && last && !isSeen(fen)) {
         if (top.mate > 0 && top.mate <= 5) {
           if (mateChainSide !== turn) {
@@ -189,8 +278,12 @@ export async function harvestGame(engine, { want, rng = Math.random, shouldStop 
           }
         } else {
           if (!top.mate) mateChainSide = null;
-          if (!top.mate && top.cp >= 220 && prevMine <= 60 && (!second || top.cp - second.cp >= 200)) {
+          // 직전까지 비슷했는데 상대 실수로 갑자기 이기는 수가 생긴 포지션 (오프닝 모드는 기준 완화)
+          const wasEven = prevMine <= (early ? 150 : 60);
+          if (!top.mate && top.cp >= 220 && wasEven && (!second || top.cp - second.cp >= 200)) {
             cands.push({ ...base, type: 'tactic' });
+          } else if (want.has('best') && !early && second && !top.mate && Math.abs(top.cp) <= 250 && top.cp - second.cp >= 150) {
+            cands.push({ ...base, type: 'best' });
           }
         }
       }
@@ -209,8 +302,30 @@ export async function harvestGame(engine, { want, rng = Math.random, shouldStop 
     if (!cand.prevFen) continue;
     let p = null;
     if (cand.type === 'mate') p = await verifyMate(engine, cand, rng);
-    else if (want.has('tactic') && !gotKinds.has('tactic')) p = await verifyTactic(engine, cand, rng);
-    if (p && want.has(p.kind) && !gotKinds.has(p.kind)) {
+    else if (cand.type === 'best') {
+      if (!gotKinds.has('best')) p = await verifyBest(engine, cand, rng);
+    } else if ((want.has('tactic') && !gotKinds.has('tactic')) || (cand.early && want.has('opening'))) {
+      p = await verifyTactic(engine, cand, rng);
+    }
+    if (!p) continue;
+    // 희생이 들어간 메이트 → 희생 메이트
+    if (p.goal === 'mate' && p.n >= 2) {
+      const sac = findSacrifice(p.fen, p.solution);
+      if (sac) {
+        p.theme = `${sac} 희생`;
+        if (want.has('sacmate') && !gotKinds.has('sacmate')) {
+          p.kind = 'sacmate';
+          p.rating += 200 + 100 * (p.n - 2);
+        }
+      }
+    }
+    // 초반(오프닝)에 나온 메이트/전술 → 오프닝 함정
+    if (cand.early && cand.ply <= 40 && want.has('opening') && !gotKinds.has('opening') && p.kind !== 'sacmate') {
+      p.kind = 'opening';
+      p.opening = cand.openingName;
+      p.rating = Math.max(600, p.rating - 200);
+    }
+    if (want.has(p.kind) && !gotKinds.has(p.kind)) {
       gotKinds.add(p.kind);
       out.push(p);
     }

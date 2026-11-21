@@ -39,6 +39,10 @@ export async function judgeAttempt(engine, puzzle, fenBefore, uci, expected, mov
     const idx = Math.floor(puzzle.solution.indexOf(expected) / 2);
     const target = puzzle.cps?.[idx] ?? 300;
     ok = mine >= 200 && mine >= Math.min(target, 600) - 150;
+  } else if (puzzle.goal === 'best') {
+    // 최선수와 거의 같은 점수면 정답 (0.6폰 이내)
+    const target = puzzle.cps?.[0] ?? 0;
+    ok = mine >= target - 60;
   } else if (puzzle.goal === 'draw') {
     ok = mine >= -80;
   }
