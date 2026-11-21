@@ -25,6 +25,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+          cache: gradle  # 라이브러리를 저장해 두고 재사용 (다운로드 서버 과부하 방지)
 
       - name: Install
         run: npm ci
@@ -40,7 +41,8 @@ jobs:
 
       - name: Build debug APK
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+        # 다운로드 서버가 일시적으로 거부(429)하면 잠시 쉬었다가 한 번 더 시도합니다
+        run: ./gradlew assembleDebug --no-daemon || (sleep 60 && ./gradlew assembleDebug --no-daemon)
 
       - name: Rename APK
         run: cp android/app/build/outputs/apk/debug/app-debug.apk chess-trainer.apk
