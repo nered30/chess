@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">체스 트레이너</string>
+    <string name="title_activity_main">체스 트레이너</string>
+    <string name="package_name">io.github.nered30.chesstrainer</string>
+    <string name="custom_url_scheme">io.github.nered30.chesstrainer</string>
+</resources>

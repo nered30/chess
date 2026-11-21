@@ -1,0 +1,25 @@
+{
+  "name": "classkit-chess",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "dev": "node scripts/copy-engine.mjs && vite",
+    "build": "node scripts/copy-engine.mjs && vite build",
+    "preview": "vite preview",
+    "copy-engine": "node scripts/copy-engine.mjs",
+    "openings": "node scripts/build-openings.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "chess.js": "^1.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
+    "stockfish": "^18.0.8",
+    "vite": "^8.3.8"
+  }
+}
