@@ -157,8 +157,9 @@ export function mount(root, ctx, payload) {
         const no = Math.floor((idx + (startBlack ? 1 : 0)) / 2) + firstNo;
         const dots = mv.color === 'w' ? '.' : '…';
         html = `<b style="color:${c.color}">${no}${dots} ${esc(mv.san)}${c.sym && c.sym !== '📖' ? c.sym : ''} — ${c.label}</b> <span class="muted">정확도 ${Math.round(mv.acc)}%</span>`;
+        if (mv.why) html += `<div class="why">${esc(mv.why).replace(/\n/g, '<br>')}</div>`;
         if (needsHint(mv.cls) && mv.bestSan) {
-          html += `<br>최선수: <b>${esc(mv.bestSan)}</b> (초록 화살표)`;
+          html += `<div class="muted">초록 화살표 = 최선수 ${esc(mv.bestSan)}</div>`;
           arrows.push({ from: mv.best.slice(0, 2), to: mv.best.slice(2, 4), color: '#15781b' });
         }
       } else {

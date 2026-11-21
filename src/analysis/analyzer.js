@@ -3,6 +3,7 @@ import { Chess } from 'chess.js';
 import { FULL_STRENGTH, MATE_BASE } from '../engine/uci.js';
 import { lookupOpening } from '../openings/openings.js';
 import { classifyMove, gameAccuracy, moveAccuracy, winPct } from './classify.js';
+import { explainMove } from './explain.js';
 
 const VALUE = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
 
@@ -84,8 +85,15 @@ export function judgeMove({ fenBefore, fenAfter, uci, before, after, ply }) {
       bestSan = null;
     }
   }
+  let why = '';
+  try {
+    why = explainMove({ fenBefore, fenAfter, uci, before, after, cls, winBefore, winAfter, winSecond });
+  } catch {
+    why = '';
+  }
   return {
     cls,
+    why,
     loss: Math.max(0, winBefore - winAfter),
     acc: moveAccuracy(winBefore, winAfter),
     best: before.best,

@@ -214,8 +214,9 @@ export function mount(root, ctx) {
     s.cls[idx] = j.cls;
     const c = CLASSES[j.cls];
     let html = `<b style="color:${c.color}">${esc(s.sans[idx])}${c.sym && c.sym !== '📖' ? c.sym : ''} — ${c.label}</b>`;
+    if (j.why) html += `<div class="why">${esc(j.why).replace(/\n/g, '<br>')}</div>`;
     if (needsHint(j.cls) && j.bestSan) {
-      html += `<br>최선수는 <b>${esc(j.bestSan)}</b> 였어요. (판 위 화살표)`;
+      html += `<div class="muted">초록 화살표 = 최선수 ${esc(j.bestSan)}</div>`;
       setArrows([{ from: j.best.slice(0, 2), to: j.best.slice(2, 4), color: '#15781b' }]);
     }
     setCoach(html, c.color);
